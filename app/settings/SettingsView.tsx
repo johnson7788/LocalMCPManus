@@ -303,7 +303,7 @@ const SettingsView = forwardRef<SettingsViewRef, SettingsViewProps>(({ onDone },
 								<CaretSortIcon />
 							</Button>
 						</DropdownMenuTrigger>
-						<DropdownMenuContent align="start" side="bottom">
+						<DropdownMenuContent align="start" side="bottom" className="bg-gray-100 text-black">
 							{sections.map(({ id, icon: Icon, ref }) => (
 								<DropdownMenuItem key={id} onClick={() => scrollToSection(ref)}>
 									<Icon />
