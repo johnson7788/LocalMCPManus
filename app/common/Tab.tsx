@@ -6,7 +6,7 @@ import { cn } from "../lib/utils"
 type TabProps = HTMLAttributes<HTMLDivElement>
 
 export const Tab = ({ className, children, ...props }: TabProps) => (
-	<div className={cn("fixed inset-0 flex flex-col overflow-hidden bg-white text-black", className)} {...props}>
+	<div className={cn("relative inset-0 flex flex-col overflow-hidden bg-white text-black", className)} {...props}>
 		{children}
 	</div>
 )
