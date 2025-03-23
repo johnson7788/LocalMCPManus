@@ -4,8 +4,8 @@ import { registerWindowIPC } from '@/app/window/ipcEvents'
 import appIcon from '@/resources/build/icon.png?asset'
 import { ipcMain } from 'electron';
 import { readToolsData, saveToolsData } from './tool'; // 导入工具数据读取功能
-import { readConfigData, saveConfigData, appendMessage } from './config'; // 导入配置数据读取功能
-
+import { writeConfig, readConfig, appendMessage } from './fileStorageMain'; // 导入配置数据读取功能
+// 这里不能写错代码，否则electron无法启动，界面无法显示
 // 在createAppWindow函数开始处初始化
 export function createAppWindow(): void {
   const mainWindow = new BrowserWindow({
@@ -55,10 +55,10 @@ ipcMain.handle('save-tools-data', async (event, toolsData) => {
 });
 
 ipcMain.handle('get-config-data', async () => {
-  return readConfigData();
+  return readConfig();
 });
 ipcMain.handle('save-config-data', async (event, configData) => {
-  return saveConfigData(configData);
+  return writeConfig(configData);
 })
 ipcMain.handle('append-message', async (event, message) => {
   return appendMessage(message);
