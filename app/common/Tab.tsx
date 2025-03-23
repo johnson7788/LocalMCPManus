@@ -6,13 +6,13 @@ import { cn } from "../lib/utils"
 type TabProps = HTMLAttributes<HTMLDivElement>
 
 export const Tab = ({ className, children, ...props }: TabProps) => (
-	<div className={cn("fixed inset-0 flex flex-col overflow-hidden", className)} {...props}>
+	<div className={cn("fixed inset-0 flex flex-col overflow-hidden bg-white text-black", className)} {...props}>
 		{children}
 	</div>
 )
 
 export const TabHeader = ({ className, children, ...props }: TabProps) => (
-	<div className={cn("px-5 py-2.5 border-b border-vscode-panel-border", className)} {...props}>
+	<div className={cn("px-5 py-2.5 border-b bg-white text-black", className)} {...props}>
 		{children}
 	</div>
 )
@@ -40,7 +40,7 @@ export const TabContent = ({ className, children, ...props }: TabProps) => {
 	)
 
 	return (
-		<div className={cn("flex-1 overflow-auto p-5", className)} onWheel={onWheel} {...props}>
+		<div className={cn("flex-1 overflow-auto p-5 bg-white text-black", className)} onWheel={onWheel} {...props}>
 			{children}
 		</div>
 	)

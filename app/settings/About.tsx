@@ -16,10 +16,9 @@ import { Section } from "./Section"
 type AboutProps = HTMLAttributes<HTMLDivElement> & {
 	version: string
 	telemetrySetting: TelemetrySetting
-	setTelemetrySetting: (setting: TelemetrySetting) => void
 }
 
-export const About = ({ version, telemetrySetting, setTelemetrySetting, className, ...props }: AboutProps) => {
+export const About = ({ version, telemetrySetting, className, ...props }: AboutProps) => {
 	const { t } = useAppTranslation()
 
 	return (
@@ -34,12 +33,7 @@ export const About = ({ version, telemetrySetting, setTelemetrySetting, classNam
 			<Section>
 				<div>
 					<VSCodeCheckbox
-						style={{ marginBottom: "5px" }}
-						checked={telemetrySetting === "enabled"}
-						onChange={(e: any) => {
-							const checked = e.target.checked === true
-							setTelemetrySetting(checked ? "enabled" : "disabled")
-						}}>
+						style={{ marginBottom: "5px" }}>
 						{t("settings:footer.telemetry.label")}
 					</VSCodeCheckbox>
 					<p

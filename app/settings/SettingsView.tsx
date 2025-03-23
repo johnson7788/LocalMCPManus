@@ -186,19 +186,6 @@ const SettingsView = forwardRef<SettingsViewRef, SettingsViewProps>(({ onDone },
 		})
 	}, [])
 
-	const setTelemetrySetting = useCallback((setting: TelemetrySetting) => {
-		setCachedState((prevState) => {
-			if (prevState.telemetrySetting === setting) {
-				return prevState
-			}
-			setChangeDetected(true)
-			return {
-				...prevState,
-				telemetrySetting: setting,
-			}
-		})
-	}, [])
-
 	const isSettingValid = !errorMessage
 
 	const handleSubmit = () => {
@@ -479,7 +466,6 @@ const SettingsView = forwardRef<SettingsViewRef, SettingsViewProps>(({ onDone },
 					<About
 						version={version}
 						telemetrySetting={telemetrySetting}
-						setTelemetrySetting={setTelemetrySetting}
 					/>
 				</div>
 			</TabContent>
