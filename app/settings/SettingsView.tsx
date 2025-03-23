@@ -171,21 +171,6 @@ const SettingsView = forwardRef<SettingsViewRef, SettingsViewProps>(({ onDone },
 		[],
 	)
 
-	const setExperimentEnabled: any = useCallback((id: ExperimentId, enabled: boolean) => {
-		setCachedState((prevState) => {
-			if (prevState.experiments?.[id] === enabled) {
-				return prevState
-			}
-
-			setChangeDetected(true)
-
-			return {
-				...prevState,
-				experiments: { ...prevState.experiments, [id]: enabled },
-			}
-		})
-	}, [])
-
 	const isSettingValid = !errorMessage
 
 	const handleSubmit = () => {
@@ -426,7 +411,6 @@ const SettingsView = forwardRef<SettingsViewRef, SettingsViewProps>(({ onDone },
 						diffEnabled={diffEnabled}
 						fuzzyMatchThreshold={fuzzyMatchThreshold}
 						setCachedStateField={setCachedStateField}
-						setExperimentEnabled={setExperimentEnabled}
 						experiments={experiments}
 					/>
 				</div>

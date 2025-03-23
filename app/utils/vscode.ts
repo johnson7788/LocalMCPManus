@@ -3,8 +3,8 @@ import { WebviewMessage } from "../shared/WebviewMessage";
 // 定义 VSCode API 的接口
 interface VSCodeAPI {
   postMessage(message: any): void;
-  getState<T>(): T | undefined;
-  setState<T>(state: T): T;
+  getState<T>(): Promise<T | undefined>; // 添加 Promise 包装
+  setState<T>(state: T): Promise<T>;      // 添加 Promise 包装
 }
 
 // 添加全局声明
@@ -17,16 +17,13 @@ if (typeof acquireVsCodeApi !== 'function') {
   (window as any).acquireVsCodeApi = function(): VSCodeAPI {
     return {
       postMessage(message: any) {
-        // 修复事件名称和参数结构（原storage-operation事件不存在）
-        window.api.invoke('append-message', message); // 直接传递message对象
+        window.api.invoke('append-message', message);
         console.log('存储 Code API 收到消息:', message);
       },
-      getState<T>() {
-        // 使用正确的IPC事件名称和参数
-        return window.api.invoke('get-config-data');
+      getState() {
+        return window.api.invoke('get-config-data').then(data => data || undefined); // 添加undefined处理
       },
-      setState<T>(newState: T) {
-        // 使用正确的IPC事件名称和参数
+      setState(newState: any) {  // 移除 <T>，改用具体类型
         window.api.invoke('save-config-data', newState);
         console.log('存储 Code API 状态已更新:', newState);
         return newState;

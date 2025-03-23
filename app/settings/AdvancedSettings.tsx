@@ -18,7 +18,6 @@ type AdvancedSettingsProps = HTMLAttributes<HTMLDivElement> & {
 	fuzzyMatchThreshold?: number
 	setCachedStateField: SetCachedStateField<"rateLimitSeconds" | "diffEnabled" | "fuzzyMatchThreshold">
 	experiments: Record<ExperimentId, boolean>
-	setExperimentEnabled: any
 }
 export const AdvancedSettings = ({
 	rateLimitSeconds,
@@ -26,7 +25,6 @@ export const AdvancedSettings = ({
 	fuzzyMatchThreshold,
 	setCachedStateField,
 	experiments,
-	setExperimentEnabled,
 	className,
 	...props
 }: AdvancedSettingsProps) => {
@@ -66,11 +64,6 @@ export const AdvancedSettings = ({
 						checked={diffEnabled}
 						onChange={(e: any) => {
 							setCachedStateField("diffEnabled", e.target.checked)
-							if (!e.target.checked) {
-								// Reset both experimental strategies when diffs are disabled.
-								setExperimentEnabled(EXPERIMENT_IDS.DIFF_STRATEGY, false)
-								setExperimentEnabled(EXPERIMENT_IDS.MULTI_SEARCH_AND_REPLACE, false)
-							}
 						}}>
 						<span className="font-medium">{t("settings:advanced.diff.label")}</span>
 					</VSCodeCheckbox>
@@ -93,18 +86,9 @@ export const AdvancedSettings = ({
 											? "multiBlock"
 											: "standard"
 								}
-								onValueChange={(value) => {
-									if (value === "standard") {
-										setExperimentEnabled(EXPERIMENT_IDS.DIFF_STRATEGY, false)
-										setExperimentEnabled(EXPERIMENT_IDS.MULTI_SEARCH_AND_REPLACE, false)
-									} else if (value === "unified") {
-										setExperimentEnabled(EXPERIMENT_IDS.DIFF_STRATEGY, true)
-										setExperimentEnabled(EXPERIMENT_IDS.MULTI_SEARCH_AND_REPLACE, false)
-									} else if (value === "multiBlock") {
-										setExperimentEnabled(EXPERIMENT_IDS.DIFF_STRATEGY, false)
-										setExperimentEnabled(EXPERIMENT_IDS.MULTI_SEARCH_AND_REPLACE, true)
-									}
-								}}>
+								onValueChange={(value) => 
+									console.log(value)
+									}>
 								<SelectTrigger className="w-full">
 									<SelectValue />
 								</SelectTrigger>
