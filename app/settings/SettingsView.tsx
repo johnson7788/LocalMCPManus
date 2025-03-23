@@ -49,6 +49,7 @@ import { NotificationSettings } from "./NotificationSettings"
 import { ContextManagementSettings } from "./ContextManagementSettings"
 import { AdvancedSettings } from "./AdvancedSettings"
 import { LanguageSettings } from "./LanguageSettings"
+import {TerminalSettings} from "./TerminalSettings"
 import { About } from "./About"
 import { Section } from "./Section"
 

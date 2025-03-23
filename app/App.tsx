@@ -6,6 +6,7 @@ import SettingsPanel from './components/SettingsPanel';
 import ResultsPanel from './components/ResultsPanel';
 import ChatPage from './components/ChatPage';
 import SettingsView from './settings/SettingsView';
+import { ExtensionStateContextProvider, useExtensionState } from "./context/ExtensionStateContext"
 
 function App() {
   const [activeView, setActiveView] = useState(null); // 'settings' or 'results'
@@ -64,9 +65,10 @@ function App() {
 
           {/* 聊天页面 */}
           {currentPage === 'chat' && <ChatPage />}
-          
-          {/* 设置页面 */}
-          {currentPage === 'settings' && <SettingsView onDone={() => handlePageChange('home')} />}
+          <ExtensionStateContextProvider>
+              {/* 设置页面 */}
+              {currentPage === 'settings' && <SettingsView onDone={() => handlePageChange('home')} />}
+          </ExtensionStateContextProvider>
         </main>
       </div>
     </div>
