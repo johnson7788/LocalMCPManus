@@ -8,7 +8,7 @@ import {
 	mistralModels,
 	openAiNativeModels,
 	vertexModels,
-} from "../../../../src/shared/api"
+} from "../shared/api"
 
 export const MODELS_BY_PROVIDER: Partial<Record<ApiProvider, Record<string, ModelInfo>>> = {
 	anthropic: anthropicModels,

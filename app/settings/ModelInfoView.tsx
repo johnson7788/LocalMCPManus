@@ -1,11 +1,11 @@
 import { useMemo } from "react"
 import { VSCodeLink } from "@vscode/webview-ui-toolkit/react"
-import { useAppTranslation } from "@/i18n/TranslationContext"
+import { useAppTranslation } from "../i18n/TranslationContext"
 
-import { formatPrice } from "@/utils/formatPrice"
-import { cn } from "@/lib/utils"
+import { formatPrice } from "../utils/formatPrice"
+import { cn } from "../lib/utils"
 
-import { ModelInfo, geminiModels } from "../../../../src/shared/api"
+import { ModelInfo, geminiModels } from "../shared/api"
 
 import { ModelDescriptionMarkdown } from "./ModelDescriptionMarkdown"
 

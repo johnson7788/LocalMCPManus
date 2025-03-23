@@ -3,8 +3,8 @@ import { VSCodeLink } from "@vscode/webview-ui-toolkit/react"
 import { Trans } from "react-i18next"
 import { ChevronsUpDown, Check, X } from "lucide-react"
 
-import { useAppTranslation } from "@/i18n/TranslationContext"
-import { cn } from "@/lib/utils"
+import { useAppTranslation } from "../i18n/TranslationContext"
+import { cn } from "../lib/utils"
 import {
 	Command,
 	CommandEmpty,
@@ -16,9 +16,9 @@ import {
 	PopoverContent,
 	PopoverTrigger,
 	Button,
-} from "@/components/ui"
+} from "../components/ui"
 
-import { ApiConfiguration, ModelInfo } from "../../../../src/shared/api"
+import { ApiConfiguration, ModelInfo } from "../shared/api"
 
 import { normalizeApiConfiguration } from "./ApiOptions"
 import { ThinkingBudget } from "./ThinkingBudget"

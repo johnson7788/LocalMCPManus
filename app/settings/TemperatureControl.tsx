@@ -1,9 +1,9 @@
 import { VSCodeCheckbox } from "@vscode/webview-ui-toolkit/react"
 import { useEffect, useState } from "react"
-import { useAppTranslation } from "@/i18n/TranslationContext"
+import { useAppTranslation } from "../i18n/TranslationContext"
 import { useDebounce } from "react-use"
 
-import { Slider } from "@/components/ui"
+import { Slider } from "../components/ui"
 
 interface TemperatureControlProps {
 	value: number | undefined | null

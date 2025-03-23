@@ -2,8 +2,8 @@ import { VSCodeLink } from "@vscode/webview-ui-toolkit/react"
 import { memo, useEffect, useRef, useState } from "react"
 import { useRemark } from "react-remark"
 
-import { cn } from "@/lib/utils"
-import { Collapsible, CollapsibleTrigger } from "@/components/ui"
+import { cn } from "../lib/utils"
+import { Collapsible, CollapsibleTrigger } from "../components/ui"
 
 import { StyledMarkdown } from "./styles"
 

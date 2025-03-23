@@ -5,7 +5,7 @@ import Sidebar from './components/Sidebar';
 import SettingsPanel from './components/SettingsPanel';
 import ResultsPanel from './components/ResultsPanel';
 import ChatPage from './components/ChatPage';
-import SettingsPage from './components/SettingsPage';
+import SettingsView from './settings/SettingsView';
 
 function App() {
   const [activeView, setActiveView] = useState(null); // 'settings' or 'results'
@@ -66,7 +66,7 @@ function App() {
           {currentPage === 'chat' && <ChatPage />}
           
           {/* 设置页面 */}
-          {currentPage === 'settings' && <SettingsPage />}
+          {currentPage === 'settings' && <SettingsView onDone={() => handlePageChange('home')} />}
         </main>
       </div>
     </div>
