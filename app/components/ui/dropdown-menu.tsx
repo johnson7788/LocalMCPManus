@@ -26,9 +26,9 @@ const DropdownMenuContent = React.forwardRef<
 			className={cn(
 				"z-50 min-w-[8rem] overflow-hidden rounded-xs p-1 shadow-xs",
 				"data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95 data-[side=bottom]:slide-in-from-top-2 data-[side=left]:slide-in-from-right-2 data-[side=right]:slide-in-from-left-2 data-[side=top]:slide-in-from-bottom-2",
-				"border",
-				"bg-gray-100", // 修改背景颜色为浅灰色
-				"text-black", // 修改文字颜色为黑色
+				"border border-gray-300", // 修改边框颜色
+				"bg-white", // 背景改为纯白
+				"text-black", // 文字颜色保持黑色
 				className,
 			)}
 			{...props}
@@ -66,7 +66,7 @@ const DropdownMenuCheckboxItem = React.forwardRef<
 		ref={ref}
 		className={cn(
 			"relative flex cursor-default select-none items-center rounded-sm py-1.5 pl-8 pr-2 text-sm outline-none transition-colors data-[disabled]:pointer-events-none data-[disabled]:opacity-50",
-			"focus:bg-vscode-list-activeSelectionBackground focus:text-vscode-list-activeSelectionForeground",
+			"focus:bg-gray-100 focus:text-black", // 替换vscode样式
 			className,
 		)}
 		checked={checked}
@@ -88,7 +88,7 @@ const DropdownMenuRadioItem = React.forwardRef<
 	<DropdownMenuPrimitive.RadioItem
 		ref={ref}
 		className={cn(
-			"relative flex cursor-default select-none items-center rounded-sm py-1.5 pl-8 pr-2 text-sm outline-none transition-colors focus:bg-vscode-list-activeSelectionBackground focus:text-accent-foreground data-[disabled]:pointer-events-none data-[disabled]:opacity-50",
+			"relative flex cursor-default select-none items-center rounded-sm py-1.5 pl-8 pr-2 text-sm outline-none transition-colors focus:bg-gray-100 focus:text-black data-[disabled]:pointer-events-none data-[disabled]:opacity-50", // 替换vscode样式
 			className,
 		)}
 		{...props}>
@@ -122,7 +122,7 @@ const DropdownMenuSeparator = React.forwardRef<
 >(({ className, ...props }, ref) => (
 	<DropdownMenuPrimitive.Separator
 		ref={ref}
-		className={cn("-mx-1 my-1 h-px bg-vscode-dropdown-foreground/10", className)}
+		className={cn("-mx-1 my-1 h-px bg-gray-200", className)} // 替换vscode样式
 		{...props}
 	/>
 ))

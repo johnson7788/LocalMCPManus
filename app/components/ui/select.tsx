@@ -23,9 +23,9 @@ function SelectTrigger({ className, children, ...props }: React.ComponentProps<t
 			data-slot="select-trigger"
 			className={cn(
 				"data-[placeholder]:text-muted-foreground [&_svg:not([class*='text-'])]:text-muted-foreground aria-invalid:border-destructive flex h-7 w-fit items-center justify-between gap-2 rounded-xs px-3 py-2 whitespace-nowrap transition-[color,box-shadow] outline-none disabled:cursor-not-allowed disabled:opacity-50 *:data-[slot=select-value]:line-clamp-1 *:data-[slot=select-value]:flex *:data-[slot=select-value]:items-center *:data-[slot=select-value]:gap-2 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4 cursor-pointer",
-				"border border-vscode-dropdown-border aria-expanded:border-vscode-focusBorder focus-visible:border-vscode-focusBorder",
-				"bg-vscode-dropdown-background hover:bg-transparent",
-				"text-vscode-dropdown-foreground",
+				"border border-gray-300 aria-expanded:border-blue-500 focus-visible:border-blue-500", // 修改边框颜色
+				"bg-white hover:bg-transparent", // 白底背景
+				"text-black", // 黑色文字
 				className,
 			)}
 			{...props}>
@@ -50,9 +50,9 @@ function SelectContent({
 				data-slot="select-content"
 				className={cn(
 					"data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95 data-[side=bottom]:slide-in-from-top-2 data-[side=left]:slide-in-from-right-2 data-[side=right]:slide-in-from-left-2 data-[side=top]:slide-in-from-bottom-2 relative z-50 max-h-72 min-w-[8rem] overflow-hidden rounded-xs shadow-xs",
-					"bg-popover",
-					"border border-vscode-focusBorder",
-					"text-popover-foreground",
+					"bg-white", // 白底背景
+					"border border-gray-300", // 灰色边框
+					"text-black", // 黑色文字
 					position === "popper" &&
 						"data-[side=bottom]:translate-y-1 data-[side=left]:-translate-x-1 data-[side=right]:translate-x-1 data-[side=top]:-translate-y-1",
 					className,
@@ -90,9 +90,8 @@ function SelectItem({ className, children, ...props }: React.ComponentProps<type
 			data-slot="select-item"
 			className={cn(
 				"[&_svg:not([class*='text-'])]:text-muted-foreground relative flex w-full items-center gap-2 py-1.5 pr-8 pl-2 outline-hidden select-none data-[disabled]:pointer-events-none data-[disabled]:opacity-50 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4 *:[span]:last:flex *:[span]:last:items-center *:[span]:last:gap-2",
-				"focus:bg-vscode-list-activeSelectionBackground focus:text-vscode-list-activeSelectionForeground",
-				"text-vscode-dropdown-foreground text-sm",
-				"rounded-xs active:opacity-90 cursor-pointer",
+				"focus:bg-blue-100 focus:text-black", // 聚焦状态背景色
+				"text-black text-sm", // 黑色文字
 				className,
 			)}
 			{...props}>
@@ -110,7 +109,7 @@ function SelectSeparator({ className, ...props }: React.ComponentProps<typeof Se
 	return (
 		<SelectPrimitive.Separator
 			data-slot="select-separator"
-			className={cn("bg-vscode-dropdown-foreground/10 pointer-events-none -mx-1 my-1 h-px", className)}
+			className={cn("bg-gray-200 pointer-events-none -mx-1 my-1 h-px", className)}
 			{...props}
 		/>
 	)

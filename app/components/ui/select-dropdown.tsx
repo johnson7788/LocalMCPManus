@@ -83,8 +83,8 @@ export const SelectDropdown = React.forwardRef<React.ElementRef<typeof DropdownM
 					title={title}
 					className={cn(
 						"w-full min-w-0 max-w-full inline-flex items-center gap-1 relative whitespace-nowrap pr-1.5 py-1.5 text-xs outline-none",
-						"bg-transparent border-none text-vscode-foreground w-auto",
-						disabled ? "opacity-50 cursor-not-allowed" : "opacity-80 hover:opacity-100 cursor-pointer",
+						"bg-background border rounded text-foreground w-auto", // 修改这里
+						disabled ? "opacity-50 cursor-not-allowed" : "cursor-pointer hover:bg-accent", // 修改这里
 						triggerClassName,
 					)}>
 					<CaretUpIcon className="pointer-events-none opacity-80 flex-shrink-0 size-3" />
