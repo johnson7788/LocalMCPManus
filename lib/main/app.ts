@@ -50,16 +50,16 @@ ipcMain.handle('get-tools-data', async () => {
   return readToolsData();
 });
 
-ipcMain.handle('save-tools-data', async (event, toolsData) => {
+ipcMain.handle('save-tools-data', async (toolsData) => {
   return saveToolsData(toolsData);
 });
 
 ipcMain.handle('get-config-data', async () => {
   return readConfig();
 });
-ipcMain.handle('save-config-data', async (event, configData) => {
+ipcMain.handle('save-config-data', async (configData) => {
   return writeConfig(configData);
 })
-ipcMain.handle('append-message', async (event, message) => {
+ipcMain.handle('append-message', async (message) => {
   return appendMessage(message);
 })

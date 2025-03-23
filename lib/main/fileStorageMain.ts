@@ -1,5 +1,6 @@
 import fs from 'fs';
 import path from 'path';
+import os from 'os'; // 新增导入os模块
 
 // 辅助函数移到模块作用域
 const getStoragePath = () => {
@@ -8,10 +9,8 @@ const getStoragePath = () => {
     darwin: path.join('Library', 'Application Support'),
     linux: path.join('.local', 'share')
   };
-  const baseDir = process.env.SAVE_DIR 
-    ? path.resolve(process.env.SAVE_DIR.replace(/^~/, process.env.HOME))
-    : path.join(process.env.HOME!, platformDirs[process.platform] || platformDirs.linux, 'LocalMCPManus');
-    
+  const baseDir = path.join(os.homedir(), platformDirs[process.platform] || platformDirs.linux, 'LocalMCPManus');
+    // 已修改为使用 os.homedir()
   return path.join(baseDir, 'config.json');
 };
 
@@ -20,47 +19,7 @@ export function initializeStorage() {
   fs.mkdirSync(path.dirname(storagePath), { recursive: true });
 }
 
-type StorageOperation = {
-  key: string
-  data?: any
-}
-
-export function initFileStorage(): void {
-  function performStorageOperation({ key, data }: StorageOperation) {
-    const storagePath = getStoragePath();
-    
-    try {
-      let currentData = {};
-      
-      if (fs.existsSync(storagePath)) {
-        currentData = JSON.parse(fs.readFileSync(storagePath, 'utf-8'));
-      }
-
-      switch (key) {
-        case 'appendMessage':
-          const messages = currentData.messages || [];
-          currentData.messages = [...messages, {
-            timestamp: new Date().toISOString(),
-            ...data
-          }];
-          break;
-        case 'writeConfig':
-          currentData = { ...currentData, ...data };
-          break;
-        case 'readConfig':
-          return currentData; // 直接返回读取的数据
-      }
-
-      fs.writeFileSync(storagePath, JSON.stringify(currentData, null, 2));
-      return key === 'readConfig' ? currentData : true;
-    } catch (error) {
-      console.error('Storage operation failed:', error);
-      return false;
-    }
-  }
-}
-
-export function appendMessage(messageData: Omit<StorageOperation, 'key'>) {
+export function appendMessage(messageData: object) {
   try {
     const storagePath = getStoragePath();
     initializeStorage(); // 确保目录存在
@@ -73,7 +32,7 @@ export function appendMessage(messageData: Omit<StorageOperation, 'key'>) {
       ...(currentData.messages || []),
       {
         timestamp: new Date().toISOString(),
-        ...messageData.data
+        ...messageData
       }
     ];
     
