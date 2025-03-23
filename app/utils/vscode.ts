@@ -1,4 +1,4 @@
-import { WebviewMessage } from "../shared/WebviewMessage"
+import { WebviewMessage } from "../shared/WebviewMessage";
 
 // 定义 VSCode API 的接口
 interface VSCodeAPI {
@@ -12,22 +12,23 @@ declare global {
   function acquireVsCodeApi(): VSCodeAPI;
 }
 
-// 模拟 acquireVsCodeApi 函数
+// 
 if (typeof acquireVsCodeApi !== 'function') {
-  // 在全局对象上定义模拟函数
   (window as any).acquireVsCodeApi = function(): VSCodeAPI {
-    let state: any = undefined;
-    
     return {
       postMessage(message: any) {
-        console.log('模拟 VS Code API 收到消息:', message);
+        // 修复事件名称和参数结构（原storage-operation事件不存在）
+        window.api.invoke('append-message', message); // 直接传递message对象
+        console.log('存储 Code API 收到消息:', message);
       },
       getState<T>() {
-        return state as T | undefined;
+        // 使用正确的IPC事件名称和参数
+        return window.api.invoke('get-config-data');
       },
       setState<T>(newState: T) {
-        state = newState;
-        console.log('模拟 VS Code API 状态已更新:', newState);
+        // 使用正确的IPC事件名称和参数
+        window.api.invoke('save-config-data', newState);
+        console.log('存储 Code API 状态已更新:', newState);
         return newState;
       }
     };
@@ -35,8 +36,7 @@ if (typeof acquireVsCodeApi !== 'function') {
 }
 
 class VSCodeAPIWrapper {
-  // 修改类型定义
-  private readonly vsCodeApi: VSCodeAPI | undefined
+  private readonly vsCodeApi: VSCodeAPI | undefined;
 
   constructor() {
     // 检查 acquireVsCodeApi 函数是否存在并获取 API
@@ -55,49 +55,29 @@ class VSCodeAPIWrapper {
    *
    * @param message Abitrary data (must be JSON serializable) to send to the extension context.
    */
-  public postMessage(message: WebviewMessage) {
+  public async postMessage(message: WebviewMessage) {
     if (this.vsCodeApi) {
-      this.vsCodeApi.postMessage(message)
+      this.vsCodeApi.postMessage(message);
     } else {
-      console.log(message)
+      // 修复参数结构（原参数嵌套了不必要的key字段）
+      await window.api.invoke('append-message', message);
+      console.log(message);
     }
   }
 
-  /**
-   * Get the persistent state stored for this webview.
-   *
-   * @remarks When running webview source code inside a web browser, getState will retrieve state
-   * from local storage (https://developer.mozilla.org/en-US/docs/Web/API/Window/localStorage).
-   *
-   * @return The current state or `undefined` if no state has been set.
-   */
-  public getState(): unknown | undefined {
-    if (this.vsCodeApi) {
-      return this.vsCodeApi.getState()
-    } else {
-      const state = localStorage.getItem("vscodeState")
-      return state ? JSON.parse(state) : undefined
-    }
+  public async getState(): Promise<unknown> {
+    return this.vsCodeApi 
+      ? this.vsCodeApi.getState()
+      : window.api.invoke('get-config-data'); // 移除冗余参数
   }
 
-  /**
-   * Set the persistent state stored for this webview.
-   *
-   * @remarks When running webview source code inside a web browser, setState will set the given
-   * state using local storage (https://developer.mozilla.org/en-US/docs/Web/API/Window/localStorage).
-   *
-   * @param newState New persisted state. This must be a JSON serializable object. Can be retrieved
-   * using {@link getState}.
-   *
-   * @return The new state.
-   */
-  public setState<T extends unknown | undefined>(newState: T): T {
+  public async setState<T extends unknown>(newState: T): Promise<T> {
     if (this.vsCodeApi) {
-      return this.vsCodeApi.setState(newState)
-    } else {
-      localStorage.setItem("vscodeState", JSON.stringify(newState))
-      return newState
+      return this.vsCodeApi.setState(newState);
     }
+    // 使用正确的参数格式
+    await window.api.invoke('save-config-data', newState);
+    return newState;
   }
 }
 

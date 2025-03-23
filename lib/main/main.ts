@@ -6,9 +6,7 @@ import { createAppWindow } from './app'
 // initialization and is ready to create browser windows.
 // Some APIs can only be used after this event occurs.
 app.whenReady().then(() => {
-  // Set app user model id for windows
   electronApp.setAppUserModelId('com.electron')
-  // Create app window
   createAppWindow()
 
   // Default open or close DevTools by F12 in development
