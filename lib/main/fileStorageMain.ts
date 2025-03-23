@@ -6,8 +6,8 @@ import os from 'os'; // 新增导入os模块
 const getStoragePath = () => {
   const platformDirs = {
     win32: path.join('AppData', 'Roaming'),
-    darwin: path.join('Library', 'Application Support'),
-    linux: path.join('.local', 'share')
+    darwin: path.join('Document',),
+    linux: path.join('.cache')
   };
   const baseDir = path.join(os.homedir(), platformDirs[process.platform] || platformDirs.linux, 'LocalMCPManus');
     // 已修改为使用 os.homedir()
@@ -15,12 +15,15 @@ const getStoragePath = () => {
 };
 
 export function initializeStorage() {
+  console.log("初始化存储")
   const storagePath = getStoragePath();
   fs.mkdirSync(path.dirname(storagePath), { recursive: true });
+  console.log("初始化存储完成,路径为: ",storagePath)
 }
 
 export function appendMessage(messageData: object) {
   try {
+    console.log("写入消息",messageData)
     const storagePath = getStoragePath();
     initializeStorage(); // 确保目录存在
     
@@ -45,6 +48,7 @@ export function appendMessage(messageData: object) {
 }
 
 export function writeConfig(config: Record<string, any>) {
+  console.log("写入配置",config)
   try {
     const storagePath = getStoragePath();
     initializeStorage();
@@ -65,9 +69,11 @@ export function writeConfig(config: Record<string, any>) {
 export function readConfig() {
   try {
     const storagePath = getStoragePath();
-    return fs.existsSync(storagePath)
+    const result = fs.existsSync(storagePath)
       ? JSON.parse(fs.readFileSync(storagePath, 'utf-8'))
       : {};
+    console.log("读取配置",result)
+    return result;
   } catch (error) {
     console.error('Read config failed:', error);
     return {};

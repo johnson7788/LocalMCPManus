@@ -18,14 +18,14 @@ if (typeof acquireVsCodeApi !== 'function') {
     return {
       postMessage(message: any) {
         window.api.invoke('append-message', message);
-        console.log('存储 Code API 收到消息:', message);
+        console.log('append-message: 存储 Code API 收到消息:', message);
       },
       getState() {
         return window.api.invoke('get-config-data').then(data => data || undefined); // 添加undefined处理
       },
       setState(newState: any) {  // 移除 <T>，改用具体类型
         window.api.invoke('save-config-data', newState);
-        console.log('存储 Code API 状态已更新:', newState);
+        console.log('save-config-data: 存储 Code API 状态已更新:', newState);
         return newState;
       }
     };
