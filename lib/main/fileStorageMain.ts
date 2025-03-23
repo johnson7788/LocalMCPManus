@@ -21,33 +21,25 @@ export function initializeStorage() {
   console.log("初始化存储完成,路径为: ",storagePath)
 }
 
-export function appendMessage(messageData: object) {
-  try {
-    console.log("写入消息",messageData)
-    const storagePath = getStoragePath();
-    initializeStorage(); // 确保目录存在
-    
-    let currentData = fs.existsSync(storagePath) 
-      ? JSON.parse(fs.readFileSync(storagePath, 'utf-8'))
-      : { messages: [] };
+//配置是{x:y}这样的object
 
-    currentData.messages = [
-      ...(currentData.messages || []),
-      {
-        timestamp: new Date().toISOString(),
-        ...messageData
-      }
-    ];
-    
-    fs.writeFileSync(storagePath, JSON.stringify(currentData, null, 2));
-    return true;
-  } catch (error) {
-    console.error('Append message failed:', error);
-    return false;
-  }
+export function updateOneConfig(newItem: any) {
+    try {
+      const storagePath = getStoragePath();
+      console.log("更新配置",newItem)
+      const configKey = newItem.type;
+      const currentConfig = readConfig();
+      currentConfig[configKey] = newItem;
+      // 调用现有写入方法更新配置
+      fs.writeFileSync(storagePath, JSON.stringify(currentConfig, null, 2));
+      return true;
+    } catch (error) {
+      console.error('Update config failed:', error);
+      return false;
+    }
 }
 
-export function writeConfig(config: Record<string, any>) {
+export function writeConfig(config: object) {
   console.log("写入配置",config)
   try {
     const storagePath = getStoragePath();
@@ -69,11 +61,12 @@ export function writeConfig(config: Record<string, any>) {
 export function readConfig() {
   try {
     const storagePath = getStoragePath();
-    const result = fs.existsSync(storagePath)
-      ? JSON.parse(fs.readFileSync(storagePath, 'utf-8'))
-      : {};
-    console.log("读取配置",result)
-    return result;
+    const content = fs.readFileSync(storagePath, 'utf-8')
+    if (content.length === 0) {
+      return {}
+    } else {
+      return JSON.parse(content)
+    }
   } catch (error) {
     console.error('Read config failed:', error);
     return {};

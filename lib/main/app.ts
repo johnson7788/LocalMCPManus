@@ -4,7 +4,7 @@ import { registerWindowIPC } from '@/app/window/ipcEvents'
 import appIcon from '@/resources/build/icon.png?asset'
 import { ipcMain } from 'electron';
 import { readToolsData, saveToolsData } from './tool'; // 导入工具数据读取功能
-import { writeConfig, readConfig, appendMessage } from './fileStorageMain'; // 导入配置数据读取功能
+import { writeConfig, readConfig, updateOneConfig } from './fileStorageMain'; // 导入配置数据读取功能
 // 这里不能写错代码，否则electron无法启动，界面无法显示
 // 在createAppWindow函数开始处初始化
 export function createAppWindow(): void {
@@ -61,5 +61,5 @@ ipcMain.handle('save-config-data', async (configData) => {
   return writeConfig(configData);
 })
 ipcMain.handle('append-message', async (event, message) => {
-  return appendMessage(message);
+  return updateOneConfig(message);
 })
