@@ -60,6 +60,6 @@ ipcMain.handle('get-config-data', async () => {
 ipcMain.handle('save-config-data', async (configData) => {
   return writeConfig(configData);
 })
-ipcMain.handle('append-message', async (message) => {
+ipcMain.handle('append-message', async (event, message) => {
   return appendMessage(message);
 })

@@ -17,6 +17,7 @@ if (typeof acquireVsCodeApi !== 'function') {
   (window as any).acquireVsCodeApi = function(): VSCodeAPI {
     return {
       postMessage(message: any) {
+        console.log('postMessage: 存储 Code API 收到消息:', message);
         window.api.invoke('append-message', message);
         console.log('append-message: 存储 Code API 收到消息:', message);
       },
