@@ -3,6 +3,7 @@ import { useAppTranslation } from "../i18n/TranslationContext"
 import { Trans } from "react-i18next"
 import { useDebounce, useEvent } from "react-use"
 import { Checkbox } from "radix-ui"
+import { CheckIcon } from "@radix-ui/react-icons"
 import { VSCodeLink, VSCodeRadio, VSCodeRadioGroup, VSCodeTextField } from "@vscode/webview-ui-toolkit/react"
 import { ExternalLinkIcon } from "@radix-ui/react-icons"
 
@@ -341,17 +342,21 @@ const ApiOptions = ({
 						</VSCodeButtonLink>
 					)}
 					<div>
-						<Checkbox
+					<Checkbox.Root
 							checked={anthropicBaseUrlSelected}
-							onChange={(checked: boolean) => {
+							onCheckedChange={(checked: boolean) => {
 								setAnthropicBaseUrlSelected(checked)
 
 								if (!checked) {
 									setApiConfigurationField("anthropicBaseUrl", "")
 								}
-							}}>
-							{t("settings:providers.useCustomBaseUrl")}
-						</Checkbox>
+							}}
+							className="flex items-center gap-2">
+							<Checkbox.Indicator>
+								<CheckIcon className="w-4 h-4" />
+							</Checkbox.Indicator>
+							<span>{t("settings:providers.useCustomBaseUrl")}</span>
+						</Checkbox.Root>
 						{anthropicBaseUrlSelected && (
 							<VSCodeTextField
 								value={apiConfiguration?.anthropicBaseUrl || ""}
