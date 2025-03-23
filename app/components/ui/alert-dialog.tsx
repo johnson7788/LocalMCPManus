@@ -36,7 +36,7 @@ function AlertDialogContent({ className, ...props }: React.ComponentProps<typeof
 			<AlertDialogPrimitive.Content
 				data-slot="alert-dialog-content"
 				className={cn(
-					"bg-vscode-editor-background data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95 fixed top-[50%] left-[50%] z-50 grid w-full max-w-[calc(100%-2rem)] translate-x-[-50%] translate-y-[-50%] gap-3 rounded-sm border border-vscode-panel-border p-4 shadow-lg duration-200 sm:max-w-md",
+					"bg-white text-black data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95 fixed top-[50%] left-[50%] z-50 grid w-full max-w-[calc(100%-2rem)] translate-x-[-50%] translate-y-[-50%] gap-3 rounded-sm border border-neutral-200 p-4 shadow-lg duration-200 sm:max-w-md",
 					className,
 				)}
 				{...props}
@@ -64,7 +64,7 @@ function AlertDialogTitle({ className, ...props }: React.ComponentProps<typeof A
 		<AlertDialogPrimitive.Title
 			data-slot="alert-dialog-title"
 			className={cn(
-				"text-base font-medium text-vscode-editor-foreground flex items-center gap-2 text-left",
+				"text-base font-medium text-black flex items-center gap-2 text-left", // 黑色文字
 				className,
 			)}
 			{...props}
@@ -79,7 +79,7 @@ function AlertDialogDescription({
 	return (
 		<AlertDialogPrimitive.Description
 			data-slot="alert-dialog-description"
-			className={cn("text-vscode-descriptionForeground text-sm text-left", className)}
+			className={cn("text-gray-500 text-sm text-left", className)} // 灰色文字
 			{...props}
 		/>
 	)
@@ -90,7 +90,7 @@ function AlertDialogAction({ className, ...props }: React.ComponentProps<typeof 
 		<AlertDialogPrimitive.Action
 			className={cn(
 				buttonVariants(),
-				"bg-vscode-button-background text-vscode-button-foreground hover:bg-vscode-button-hoverBackground border border-transparent h-6 px-3 py-1",
+				"bg-white text-black hover:bg-neutral-100 border border-transparent h-6 px-3 py-1", // 白底黑字 + 中性hover
 				className,
 			)}
 			{...props}
@@ -103,7 +103,7 @@ function AlertDialogCancel({ className, ...props }: React.ComponentProps<typeof 
 		<AlertDialogPrimitive.Cancel
 			className={cn(
 				buttonVariants({ variant: "outline" }),
-				"bg-vscode-button-secondaryBackground text-vscode-button-secondaryForeground hover:bg-vscode-button-secondaryHoverBackground border border-vscode-button-border h-6 px-3 py-1",
+				"bg-white text-black hover:bg-neutral-100 border border-neutral-200 h-6 px-3 py-1", // 白底黑字 + 中性边框
 				className,
 			)}
 			{...props}
