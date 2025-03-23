@@ -6,7 +6,9 @@ import SettingsPanel from './components/SettingsPanel';
 import ResultsPanel from './components/ResultsPanel';
 import ChatPage from './components/ChatPage';
 import SettingsView from './settings/SettingsView';
-import { ExtensionStateContextProvider, useExtensionState } from "./context/ExtensionStateContext"
+import { ExtensionStateContextProvider } from "./context/ExtensionStateContext"
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query"
+import TranslationProvider from "./i18n/TranslationContext"
 
 function App() {
   const [activeView, setActiveView] = useState(null); // 'settings' or 'results'
@@ -27,6 +29,8 @@ function App() {
       setActiveTool(null);
     }
   };
+
+  const queryClient = new QueryClient()
 
   return (
     <div className="flex flex-col h-screen bg-gray-50 dark:bg-gray-900">
@@ -66,8 +70,12 @@ function App() {
           {/* 聊天页面 */}
           {currentPage === 'chat' && <ChatPage />}
           <ExtensionStateContextProvider>
-              {/* 设置页面 */}
-              {currentPage === 'settings' && <SettingsView onDone={() => handlePageChange('home')} />}
+            <TranslationProvider>
+                <QueryClientProvider client={queryClient}>
+                    {/* 设置页面 */}
+                    {currentPage === 'settings' && <SettingsView onDone={() => handlePageChange('home')} />}
+                </QueryClientProvider>
+            </TranslationProvider>
           </ExtensionStateContextProvider>
         </main>
       </div>
