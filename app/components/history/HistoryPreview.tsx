@@ -14,7 +14,8 @@ const HistoryPreview = () => {
 
 	return (
 		<div className="flex flex-col gap-3 shrink-0 mx-5">
-			<div className="flex items-center justify-between text-vscode-descriptionForeground">
+			{/* 修改主容器背景为白色 */}
+			<div className="flex items-center justify-between text-black"> {/* 修改文字颜色 */}
 				<div className="flex items-center gap-1">
 					<span className="codicon codicon-comment-discussion scale-90 mr-1" />
 					<span className="font-medium text-xs uppercase">{t("history:recentTasks")}</span>
@@ -23,17 +24,18 @@ const HistoryPreview = () => {
 			{taskHistory.slice(0, 3).map((item) => (
 				<div
 					key={item.id}
-					className="bg-vscode-toolbar-hoverBackground/50 hover:bg-vscode-toolbar-hoverBackground/75 rounded-xs relative overflow-hidden opacity-90 hover:opacity-100 cursor-pointer"
+					className="bg-white rounded-xs relative overflow-hidden opacity-90 hover:opacity-100 cursor-pointer" // 移除原有背景色，改为bg-white
 					onClick={() => vscode.postMessage({ type: "showTaskWithId", text: item.id })}>
 					<div className="flex flex-col gap-2 p-3 pt-1">
 						<div className="flex justify-between items-center">
-							<span className="text-xs font-medium text-vscode-descriptionForeground uppercase">
+							<span className="text-xs font-medium text-black uppercase"> {/* 文字改黑色 */}
 								{formatDate(item.ts)}
 							</span>
 							<CopyButton itemTask={item.task} />
 						</div>
+						{/* 任务描述文字改为黑色 */}
 						<div
-							className="text-vscode-descriptionForeground overflow-hidden whitespace-pre-wrap"
+							className="text-black overflow-hidden whitespace-pre-wrap"
 							style={{
 								display: "-webkit-box",
 								WebkitLineClamp: 3,
@@ -43,7 +45,8 @@ const HistoryPreview = () => {
 							}}>
 							{item.task}
 						</div>
-						<div className="text-xs text-vscode-descriptionForeground">
+						{/* 统计信息文字改为黑色 */}
+						<div className="text-xs text-black">
 							<span>
 								{t("history:tokens", {
 									in: formatLargeNumber(item.tokensIn || 0),

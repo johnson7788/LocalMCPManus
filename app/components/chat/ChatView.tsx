@@ -31,6 +31,7 @@ import { validateCommand } from "../../utils/command-validation"
 import { getAllModes } from "../../shared/modes"
 import { useAppTranslation } from "../../i18n/TranslationContext"
 import removeMd from "remove-markdown"
+import { Button } from "../ui/button"
 
 interface ChatViewProps {
 	isHidden: boolean
@@ -1094,223 +1095,219 @@ const ChatView = ({ isHidden, showAnnouncement, hideAnnouncement }: ChatViewProp
 
 	return (
 		<div
+		  style={{
+			position: "relative",
+			height: "100vh", // 确保容器占满整个视口高度
+			display: "flex",
+			flexDirection: "row", // 改为横向布局
+			overflow: "hidden",
+			backgroundColor: "white", // 添加暗色背景
+			color: "black" // 确保文字颜色可见
+		  }}>
+		  {/* 左侧历史记录栏 */}
+		  <div
 			style={{
-				position: "relative",
-				top: 0,
-				left: 0,
-				right: 0,
-				bottom: 0,
-				display: isHidden ? "none" : "flex",
-				flexDirection: "column",
-				overflow: "hidden",
+			  width: "25%",
+			  backgroundColor: "white",
+			  overflowY: "auto",
+			  padding: "20px",
+			  borderRight: "1px solid #37373d"
 			}}>
-			{task ? (
-				<>
-					<TaskHeader
-						task={task}
-						tokensIn={apiMetrics.totalTokensIn}
-						tokensOut={apiMetrics.totalTokensOut}
-						doesModelSupportPromptCache={selectedModelInfo.supportsPromptCache}
-						cacheWrites={apiMetrics.totalCacheWrites}
-						cacheReads={apiMetrics.totalCacheReads}
-						totalCost={apiMetrics.totalCost}
-						contextTokens={apiMetrics.contextTokens}
-						onClose={handleTaskCloseButtonClick}
-					/>
-
-					{/* Checkpoint warning message */}
-					{showCheckpointWarning && (
-						<div className="px-3">
-							<CheckpointWarningMessage />
-						</div>
-					)}
-				</>
+			{taskHistory.length > 0 ? (
+			  <HistoryPreview />
 			) : (
-				<div
-					style={{
-						flex: "1 1 0", // flex-grow: 1, flex-shrink: 1, flex-basis: 0
-						minHeight: 0,
-						overflowY: "auto",
-						display: "flex",
-						flexDirection: "column",
-						paddingBottom: "10px",
-					}}>
-					{showAnnouncement && <Announcement version={version} hideAnnouncement={hideAnnouncement} />}
-					<div style={{ padding: "0 20px", flexShrink: 0 }}>
-						<h2>{t("chat:greeting")}</h2>
-						<p>{t("chat:aboutMe")}</p>
-					</div>
-					{taskHistory.length > 0 && <HistoryPreview />}
-				</div>
+			  <div>
+				<h2>{t("chat:greeting")}</h2>
+			  </div>
 			)}
-
-			{/* 
-			// Flex layout explanation:
-			// 1. Content div above uses flex: "1 1 0" to:
-			//    - Grow to fill available space (flex-grow: 1) 
-			//    - Shrink when AutoApproveMenu needs space (flex-shrink: 1)
-			//    - Start from zero size (flex-basis: 0) to ensure proper distribution
-			//    minHeight: 0 allows it to shrink below its content height
-			//
-			// 2. AutoApproveMenu uses flex: "0 1 auto" to:
-			//    - Not grow beyond its content (flex-grow: 0)
-			//    - Shrink when viewport is small (flex-shrink: 1) 
-			//    - Use its content size as basis (flex-basis: auto)
-			//    This ensures it takes its natural height when there's space
-			//    but becomes scrollable when the viewport is too small
-			*/}
-			{!task && (
-				<AutoApproveMenu
-					style={{
-						marginBottom: -2,
-						flex: "0 1 auto", // flex-grow: 0, flex-shrink: 1, flex-basis: auto
-						minHeight: 0,
-					}}
-				/>
-			)}
-
+		  </div>
+	  
+		  {/* 右侧主内容区 */}
+		  <div style={{ 
+			flex: 1, 
+			display: "flex",
+			flexDirection: "column",
+			overflow: "hidden"
+		  }}>
 			{task && (
-				<>
-					<div style={{ flexGrow: 1, display: "flex" }} ref={scrollContainerRef}>
-						<Virtuoso
-							ref={virtuosoRef}
-							key={task.ts} // trick to make sure virtuoso re-renders when task changes, and we use initialTopMostItemIndex to start at the bottom
-							className="scrollable"
-							style={{
-								flexGrow: 1,
-								overflowY: "scroll", // always show scrollbar
-							}}
-							components={{
-								Footer: () => <div style={{ height: 5 }} />, // Add empty padding at the bottom
-							}}
-							// increasing top by 3_000 to prevent jumping around when user collapses a row
-							increaseViewportBy={{ top: 3_000, bottom: Number.MAX_SAFE_INTEGER }} // hack to make sure the last message is always rendered to get truly perfect scroll to bottom animation when new messages are added (Number.MAX_SAFE_INTEGER is safe for arithmetic operations, which is all virtuoso uses this value for in src/sizeRangeSystem.ts)
-							data={groupedMessages} // messages is the raw format returned by extension, modifiedMessages is the manipulated structure that combines certain messages of related type, and visibleMessages is the filtered structure that removes messages that should not be rendered
-							itemContent={itemContent}
-							atBottomStateChange={(isAtBottom) => {
-								setIsAtBottom(isAtBottom)
-								if (isAtBottom) {
-									disableAutoScrollRef.current = false
-								}
-								setShowScrollToBottom(disableAutoScrollRef.current && !isAtBottom)
-							}}
-							atBottomThreshold={10} // anything lower causes issues with followOutput
-							initialTopMostItemIndex={groupedMessages.length - 1}
-						/>
-					</div>
-					<AutoApproveMenu />
-					{showScrollToBottom ? (
-						<div
-							style={{
-								display: "flex",
-								padding: "10px 15px 0px 15px",
-							}}>
-							<ScrollToBottomButton
-								onClick={() => {
-									scrollToBottomSmooth()
-									disableAutoScrollRef.current = false
-								}}
-								title={t("chat:scrollToBottom")}>
-								<span className="codicon codicon-chevron-down" style={{ fontSize: "18px" }}></span>
-							</ScrollToBottomButton>
-						</div>
-					) : (
-						<div
-							style={{
-								opacity:
-									primaryButtonText || secondaryButtonText || isStreaming
-										? enableButtons || (isStreaming && !didClickCancel)
-											? 1
-											: 0.5
-										: 0,
-								display: "flex",
-								padding: `${primaryButtonText || secondaryButtonText || isStreaming ? "10" : "0"}px 15px 0px 15px`,
-							}}>
-							{primaryButtonText && !isStreaming && (
-								<VSCodeButton
-									appearance="primary"
-									disabled={!enableButtons}
-									style={{
-										flex: secondaryButtonText ? 1 : 2,
-										marginRight: secondaryButtonText ? "6px" : "0",
-									}}
-									title={
-										primaryButtonText === t("chat:retry.title")
-											? t("chat:retry.tooltip")
-											: primaryButtonText === t("chat:save.title")
-												? t("chat:save.tooltip")
-												: primaryButtonText === t("chat:approve.title")
-													? t("chat:approve.tooltip")
-													: primaryButtonText === t("chat:runCommand.title")
-														? t("chat:runCommand.tooltip")
-														: primaryButtonText === t("chat:startNewTask.title")
-															? t("chat:startNewTask.tooltip")
-															: primaryButtonText === t("chat:resumeTask.title")
-																? t("chat:resumeTask.tooltip")
-																: primaryButtonText === t("chat:proceedAnyways.title")
-																	? t("chat:proceedAnyways.tooltip")
-																	: primaryButtonText ===
-																		  t("chat:proceedWhileRunning.title")
-																		? t("chat:proceedWhileRunning.tooltip")
-																		: undefined
-									}
-									onClick={(e) => handlePrimaryButtonClick(inputValue, selectedImages)}>
-									{primaryButtonText}
-								</VSCodeButton>
-							)}
-							{(secondaryButtonText || isStreaming) && (
-								<VSCodeButton
-									appearance="secondary"
-									disabled={!enableButtons && !(isStreaming && !didClickCancel)}
-									style={{
-										flex: isStreaming ? 2 : 1,
-										marginLeft: isStreaming ? 0 : "6px",
-									}}
-									title={
-										isStreaming
-											? t("chat:cancel.tooltip")
-											: secondaryButtonText === t("chat:startNewTask.title")
-												? t("chat:startNewTask.tooltip")
-												: secondaryButtonText === t("chat:reject.title")
-													? t("chat:reject.tooltip")
-													: secondaryButtonText === t("chat:terminate.title")
-														? t("chat:terminate.tooltip")
-														: undefined
-									}
-									onClick={(e) => handleSecondaryButtonClick(inputValue, selectedImages)}>
-									{isStreaming ? t("chat:cancel.title") : secondaryButtonText}
-								</VSCodeButton>
-							)}
-						</div>
-					)}
-				</>
+			  <>
+				<TaskHeader
+				  task={task}
+				  tokensIn={apiMetrics.totalTokensIn}
+				  tokensOut={apiMetrics.totalTokensOut}
+				  doesModelSupportPromptCache={selectedModelInfo.supportsPromptCache}
+				  cacheWrites={apiMetrics.totalCacheWrites}
+				  cacheReads={apiMetrics.totalCacheReads}
+				  totalCost={apiMetrics.totalCost}
+				  contextTokens={apiMetrics.contextTokens}
+				  onClose={handleTaskCloseButtonClick}
+				/>
+	  
+				{showCheckpointWarning && (
+				  <div className="px-3">
+					<CheckpointWarningMessage />
+				  </div>
+				)}
+			  </>
 			)}
-
-			<ChatTextArea
-				ref={textAreaRef}
-				inputValue={inputValue}
-				setInputValue={setInputValue}
-				textAreaDisabled={textAreaDisabled}
-				placeholderText={placeholderText}
-				selectedImages={selectedImages}
-				setSelectedImages={setSelectedImages}
-				onSend={() => handleSendMessage(inputValue, selectedImages)}
-				onSelectImages={selectImages}
-				shouldDisableImages={shouldDisableImages}
-				onHeightChange={() => {
+	  
+			{/* 聊天内容区 */}
+			<div style={{ 
+			  flex: 1,
+			  overflow: "hidden",
+			  display: "flex",
+			  flexDirection: "column"
+			}}>
+				  <div style={{ 
+					flex: 1,
+					overflowY: "auto",
+					padding: "20px"
+				  }} ref={scrollContainerRef}>
+					<Virtuoso
+					  ref={virtuosoRef}
+					  key={task?.ts}
+					  className="scrollable"
+					  style={{
+						flexGrow: 1,
+					  }}
+					  components={{
+						Footer: () => <div style={{ height: 5 }} />,
+					  }}
+					  increaseViewportBy={{ top: 3_000, bottom: Number.MAX_SAFE_INTEGER }}
+					  data={groupedMessages}
+					  itemContent={itemContent}
+					  atBottomStateChange={(isAtBottom) => {
+						setIsAtBottom(isAtBottom)
+						if (isAtBottom) {
+						  disableAutoScrollRef.current = false
+						}
+						setShowScrollToBottom(disableAutoScrollRef.current && !isAtBottom)
+					  }}
+					  atBottomThreshold={10}
+					  initialTopMostItemIndex={groupedMessages.length - 1}
+					/>
+				  </div>
+	  
+				  {/* 操作按钮区 */}
+				  <div style={{ 
+					padding: "20px",
+					borderTop: "1px solid #37373d",
+					backgroundColor: "white"
+				  }}>
+					{showScrollToBottom ? (
+					  <div style={{ paddingBottom: "10px" }}>
+						<ScrollToBottomButton
+						  onClick={() => {
+							scrollToBottomSmooth()
+							disableAutoScrollRef.current = false
+						  }}
+						  title={t("chat:scrollToBottom")}>
+						  <span className="codicon codicon-chevron-down" style={{ fontSize: "18px" }}></span>
+						</ScrollToBottomButton>
+					  </div>
+					) : (
+				  <div
+					style={{
+					  opacity:
+						primaryButtonText || secondaryButtonText || isStreaming
+						  ? enableButtons || (isStreaming && !didClickCancel)
+							? 1
+							: 0.5
+						  : 0,
+					  display: "flex",
+					  padding: `${primaryButtonText || secondaryButtonText || isStreaming ? "10" : "0"}px 15px 0px 15px`,
+					}}>
+					{primaryButtonText && !isStreaming && (
+					  <Button
+						disabled={!enableButtons}
+						style={{
+						  flex: secondaryButtonText ? 1 : 2,
+						  marginRight: secondaryButtonText ? "6px" : "0",
+						}}
+						title={
+						  primaryButtonText === t("chat:retry.title")
+							? t("chat:retry.tooltip")
+							: primaryButtonText === t("chat:save.title")
+							  ? t("chat:save.tooltip")
+							  : primaryButtonText === t("chat:approve.title")
+								? t("chat:approve.tooltip")
+								: primaryButtonText === t("chat:runCommand.title")
+								  ? t("chat:runCommand.tooltip")
+								  : primaryButtonText === t("chat:startNewTask.title")
+									? t("chat:startNewTask.tooltip")
+									: primaryButtonText === t("chat:resumeTask.title")
+									  ? t("chat:resumeTask.tooltip")
+									  : primaryButtonText === t("chat:proceedAnyways.title")
+										? t("chat:proceedAnyways.tooltip")
+										: primaryButtonText ===
+											t("chat:proceedWhileRunning.title")
+										  ? t("chat:proceedWhileRunning.tooltip")
+										  : undefined
+						}
+						onClick={(e) => handlePrimaryButtonClick(inputValue, selectedImages)}>
+						{primaryButtonText}
+					  </Button>
+					)}
+					{(secondaryButtonText || isStreaming) && (
+					  <Button
+						disabled={!enableButtons && !(isStreaming && !didClickCancel)}
+						style={{
+						  flex: isStreaming ? 2 : 1,
+						  marginLeft: isStreaming ? 0 : "6px",
+						}}
+						title={
+						  isStreaming
+							? t("chat:cancel.tooltip")
+							: secondaryButtonText === t("chat:startNewTask.title")
+							  ? t("chat:startNewTask.tooltip")
+							  : secondaryButtonText === t("chat:reject.title")
+								? t("chat:reject.tooltip")
+								: secondaryButtonText === t("chat:terminate.title")
+								  ? t("chat:terminate.tooltip")
+								  : undefined
+						}
+						onClick={(e) => handleSecondaryButtonClick(inputValue, selectedImages)}>
+						{isStreaming ? t("chat:cancel.title") : secondaryButtonText}
+					  </Button>
+					)}
+				  </div>
+					)}
+				  </div>
+	  
+			  {/* 输入区 */}
+			  <div style={{
+				padding: "20px",
+				borderTop: "1px solid #37373d",
+				backgroundColor: "white"
+			  }}>
+				<ChatTextArea
+				  ref={textAreaRef}
+				  inputValue={inputValue}
+				  setInputValue={setInputValue}
+				  textAreaDisabled={textAreaDisabled}
+				  placeholderText={placeholderText}
+				  selectedImages={selectedImages}
+				  setSelectedImages={setSelectedImages}
+				  onSend={() => handleSendMessage(inputValue, selectedImages)}
+				  onSelectImages={selectImages}
+				  shouldDisableImages={shouldDisableImages}
+				  onHeightChange={() => {
 					if (isAtBottom) {
-						scrollToBottomAuto()
+					  scrollToBottomAuto()
 					}
-				}}
-				mode={mode}
-				setMode={setMode}
-				modeShortcutText={modeShortcutText}
-			/>
-
-			<div id="roo-portal" />
+				  }}
+				  mode={mode}
+				  setMode={setMode}
+				  modeShortcutText={modeShortcutText}
+				/>
+			  </div>
+			</div>
+		  </div>
+	  
+		  <div id="roo-portal" />
 		</div>
-	)
-}
+	  )
+}	
 
 const ScrollToBottomButton = styled.div`
 	background-color: color-mix(in srgb, var(--vscode-toolbar-hoverBackground) 55%, transparent);

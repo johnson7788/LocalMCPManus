@@ -136,8 +136,8 @@ const TaskHeader: React.FC<TaskHeaderProps> = ({
 		<div style={{ padding: "10px 13px 10px 13px" }}>
 			<div
 				style={{
-					backgroundColor: "var(--vscode-badge-background)",
-					color: "var(--vscode-badge-foreground)",
+					backgroundColor: "white",  // 修改背景色为白色
+					color: "black",  // 修改文字颜色为黑色
 					borderRadius: "3px",
 					padding: "9px 10px 9px 14px",
 					display: "flex",
@@ -191,8 +191,8 @@ const TaskHeader: React.FC<TaskHeaderProps> = ({
 						<div
 							style={{
 								marginLeft: 10,
-								backgroundColor: "color-mix(in srgb, var(--vscode-badge-foreground) 70%, transparent)",
-								color: "var(--vscode-badge-background)",
+								backgroundColor: "color-mix(in srgb, black 70%, transparent)",  // 修改颜色混合参数
+								color: "white",  // 修改文字颜色为白色
 								padding: "2px 4px",
 								borderRadius: "500px",
 								fontSize: "11px",
@@ -206,7 +206,7 @@ const TaskHeader: React.FC<TaskHeaderProps> = ({
 					<VSCodeButton
 						appearance="icon"
 						onClick={onClose}
-						style={{ marginLeft: 6, flexShrink: 0, color: "var(--vscode-badge-foreground)" }}
+						style={{ marginLeft: 6, flexShrink: 0, color: "black" }}  // 修改按钮颜色为黑色
 						title={t("chat:task.closeAndStart")}>
 						<span className="codicon codicon-close"></span>
 					</VSCodeButton>
@@ -250,7 +250,7 @@ const TaskHeader: React.FC<TaskHeaderProps> = ({
 											width: 30,
 											height: "1.2em",
 											background:
-												"linear-gradient(to right, transparent, var(--vscode-badge-background))",
+												"linear-gradient(to right, transparent, white)",  // 修改渐变背景为白色
 										}}
 									/>
 									<div
