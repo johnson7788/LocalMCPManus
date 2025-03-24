@@ -1097,7 +1097,7 @@ const ChatView = ({ isHidden, showAnnouncement, hideAnnouncement }: ChatViewProp
 		<div
 		  style={{
 			position: "relative",
-			height: "100vh", // 确保容器占满整个视口高度
+			height: "100%", // 确保容器占满整个视口高度
 			display: "flex",
 			flexDirection: "row", // 改为横向布局
 			overflow: "hidden",
@@ -1127,7 +1127,8 @@ const ChatView = ({ isHidden, showAnnouncement, hideAnnouncement }: ChatViewProp
 			flex: 1, 
 			display: "flex",
 			flexDirection: "column",
-			overflow: "hidden"
+			overflow: "hidden",
+			position: "relative"
 		  }}>
 			{task && (
 			  <>
