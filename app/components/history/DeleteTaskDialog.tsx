@@ -12,10 +12,10 @@ import {
 	AlertDialogHeader,
 	AlertDialogTitle,
 	Button,
-} from "@/components/ui"
-import { useAppTranslation } from "@/i18n/TranslationContext"
+} from "../ui"
+import { useAppTranslation } from "../../i18n/TranslationContext"
 
-import { vscode } from "@/utils/vscode"
+import { vscode } from "../../utils/vscode"
 
 interface DeleteTaskDialogProps extends AlertDialogProps {
 	taskId: string

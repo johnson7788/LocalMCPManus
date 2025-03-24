@@ -4,18 +4,18 @@ import { VSCodeButton } from "@vscode/webview-ui-toolkit/react"
 import prettyBytes from "pretty-bytes"
 import { useTranslation } from "react-i18next"
 
-import { vscode } from "@/utils/vscode"
-import { formatLargeNumber } from "@/utils/format"
-import { calculateTokenDistribution, getMaxTokensForModel } from "@/utils/model-utils"
-import { Button } from "@/components/ui"
+import { vscode } from "../../utils/vscode"
+import { formatLargeNumber } from "../../utils/format"
+import { calculateTokenDistribution, getMaxTokensForModel } from "../../utils/model-utils"
+import { Button } from "../../components/ui"
 
-import { ClineMessage } from "../../../../src/shared/ExtensionMessage"
-import { mentionRegexGlobal } from "../../../../src/shared/context-mentions"
-import { HistoryItem } from "../../../../src/shared/HistoryItem"
+import { ClineMessage } from "../../shared/ExtensionMessage"
+import { mentionRegexGlobal } from "../../shared/context-mentions"
+import { HistoryItem } from "../../shared/HistoryItem"
 
 import { useExtensionState } from "../../context/ExtensionStateContext"
-import Thumbnails from "../common/Thumbnails"
-import { normalizeApiConfiguration } from "../settings/ApiOptions"
+import Thumbnails from "../../common/Thumbnails"
+import { normalizeApiConfiguration } from "../../settings/ApiOptions"
 import { DeleteTaskDialog } from "../history/DeleteTaskDialog"
 
 interface TaskHeaderProps {

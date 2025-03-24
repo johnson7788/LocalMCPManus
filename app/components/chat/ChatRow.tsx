@@ -9,16 +9,16 @@ import {
 	ClineAskUseMcpServer,
 	ClineMessage,
 	ClineSayTool,
-} from "../../../../src/shared/ExtensionMessage"
-import { COMMAND_OUTPUT_STRING } from "../../../../src/shared/combineCommandSequences"
+} from "../../shared/ExtensionMessage"
+import { COMMAND_OUTPUT_STRING } from "../../shared/combineCommandSequences"
 import { useExtensionState } from "../../context/ExtensionStateContext"
 import { findMatchingResourceOrTemplate } from "../../utils/mcp"
 import { vscode } from "../../utils/vscode"
-import CodeAccordian, { removeLeadingNonAlphanumeric } from "../common/CodeAccordian"
-import CodeBlock, { CODE_BLOCK_BG_COLOR } from "../common/CodeBlock"
-import MarkdownBlock from "../common/MarkdownBlock"
+import CodeAccordian, { removeLeadingNonAlphanumeric } from "../../common/CodeAccordian"
+import CodeBlock, { CODE_BLOCK_BG_COLOR } from "../../common/CodeBlock"
+import MarkdownBlock from "../../common/MarkdownBlock"
 import { ReasoningBlock } from "./ReasoningBlock"
-import Thumbnails from "../common/Thumbnails"
+import Thumbnails from "../../common/Thumbnails"
 import McpResourceRow from "../mcp/McpResourceRow"
 import McpToolRow from "../mcp/McpToolRow"
 import { highlightMentions } from "./TaskHeader"

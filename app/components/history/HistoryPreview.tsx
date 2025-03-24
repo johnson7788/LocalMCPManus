@@ -1,8 +1,8 @@
 import { memo } from "react"
 
-import { vscode } from "@/utils/vscode"
-import { formatLargeNumber, formatDate } from "@/utils/format"
-import { Button } from "@/components/ui"
+import { vscode } from "../../utils/vscode"
+import { formatLargeNumber, formatDate } from "../../utils/format"
+import { Button } from "../ui"
 
 import { useExtensionState } from "../../context/ExtensionStateContext"
 import { useAppTranslation } from "../../i18n/TranslationContext"

@@ -5,8 +5,8 @@ import {
 	getContextMenuOptions,
 	SearchResult,
 } from "../../utils/context-mentions"
-import { removeLeadingNonAlphanumeric } from "../common/CodeAccordian"
-import { ModeConfig } from "../../../../src/shared/modes"
+import { removeLeadingNonAlphanumeric } from "../../common/CodeAccordian"
+import { ModeConfig } from "../../shared/modes"
 
 interface ContextMenuProps {
 	onSelect: (type: ContextMenuOptionType, value?: string) => void

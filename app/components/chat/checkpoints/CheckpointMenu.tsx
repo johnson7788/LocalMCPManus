@@ -2,8 +2,8 @@ import { useState, useCallback } from "react"
 import { CheckIcon, Cross2Icon } from "@radix-ui/react-icons"
 import { useTranslation } from "react-i18next"
 
-import { Button, Popover, PopoverContent, PopoverTrigger } from "@/components/ui"
-import { useRooPortal } from "@/components/ui/hooks"
+import { Button, Popover, PopoverContent, PopoverTrigger } from "../../ui"
+import { useRooPortal } from "../../ui/hooks"
 
 import { vscode } from "../../../utils/vscode"
 import { Checkpoint } from "./schema"

@@ -1,9 +1,9 @@
 import { useCallback } from "react"
 
-import { useClipboard } from "@/components/ui/hooks"
-import { Button } from "@/components/ui"
-import { cn } from "@/lib/utils"
-import { useAppTranslation } from "@/i18n/TranslationContext"
+import { useClipboard } from "../ui/hooks"
+import { Button } from "../ui"
+import { cn } from "../../lib/utils"
+import { useAppTranslation } from "../../i18n/TranslationContext"
 
 type CopyButtonProps = {
 	itemTask: string

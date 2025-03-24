@@ -2,14 +2,14 @@ import React, { forwardRef, useCallback, useEffect, useLayoutEffect, useMemo, us
 import { useEvent } from "react-use"
 import DynamicTextArea from "react-textarea-autosize"
 
-import { mentionRegex, mentionRegexGlobal } from "../../../../src/shared/context-mentions"
-import { WebviewMessage } from "../../../../src/shared/WebviewMessage"
-import { Mode, getAllModes } from "../../../../src/shared/modes"
-import { ExtensionMessage } from "../../../../src/shared/ExtensionMessage"
+import { mentionRegex, mentionRegexGlobal } from "../../shared/context-mentions"
+import { WebviewMessage } from "../../shared/WebviewMessage"
+import { Mode, getAllModes } from "../../shared/modes"
+import { ExtensionMessage } from "../../shared/ExtensionMessage"
 
-import { vscode } from "@/utils/vscode"
-import { useExtensionState } from "@/context/ExtensionStateContext"
-import { useAppTranslation } from "@/i18n/TranslationContext"
+import { vscode } from "../../utils/vscode"
+import { useExtensionState } from "../../context/ExtensionStateContext"
+import { useAppTranslation } from "../../i18n/TranslationContext"
 import {
 	ContextMenuOptionType,
 	getContextMenuOptions,
@@ -17,11 +17,11 @@ import {
 	removeMention,
 	shouldShowContextMenu,
 	SearchResult,
-} from "@/utils/context-mentions"
-import { convertToMentionPath } from "@/utils/path-mentions"
-import { SelectDropdown, DropdownOptionType, Button } from "@/components/ui"
+} from "../../utils/context-mentions"
+import { convertToMentionPath } from "../../utils/path-mentions"
+import { SelectDropdown, DropdownOptionType, Button } from "../../components/ui"
 
-import Thumbnails from "../common/Thumbnails"
+import Thumbnails from "../../common/Thumbnails"
 import { MAX_IMAGES_PER_MESSAGE } from "./ChatView"
 import ContextMenu from "./ContextMenu"
 import { VolumeX } from "lucide-react"

@@ -4,7 +4,7 @@ import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, D
 import { Textarea } from "../ui/textarea"
 import { useClipboard } from "../ui/hooks"
 import { Check, Copy, X } from "lucide-react"
-import { useAppTranslation } from "@/i18n/TranslationContext"
+import { useAppTranslation } from "../../i18n/TranslationContext"
 
 interface HumanRelayDialogProps {
 	isOpen: boolean

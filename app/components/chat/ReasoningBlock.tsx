@@ -2,7 +2,7 @@ import { useCallback, useEffect, useRef, useState } from "react"
 import { CaretDownIcon, CaretUpIcon, CounterClockwiseClockIcon } from "@radix-ui/react-icons"
 import { useTranslation } from "react-i18next"
 
-import MarkdownBlock from "../common/MarkdownBlock"
+import MarkdownBlock from "../../common/MarkdownBlock"
 import { useMount } from "react-use"
 
 interface ReasoningBlockProps {

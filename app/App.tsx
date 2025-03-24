@@ -83,8 +83,8 @@ function App() {
             <TranslationProvider>
                 <QueryClientProvider client={queryClient}>
                     {/* 聊天页面 */}
-                    {currentPage === 'chat' && <ChatPage />}
-                    {/* {currentPage === 'chat' && (
+                    {/* {currentPage === 'chat' && <ChatPage />} */}
+                    {currentPage === 'chat' && (
                       <ChatView
                         isHidden={false}
                         showAnnouncement={showAnnouncement}
@@ -99,7 +99,7 @@ function App() {
                       onClose={() => setHumanRelayDialogState((prev) => ({ ...prev, isOpen: false }))}
                       onSubmit={(requestId, text) => vscode.postMessage({ type: "humanRelayResponse", requestId, text })}
                       onCancel={(requestId) => vscode.postMessage({ type: "humanRelayCancel", requestId })}
-                    /> */}
+                    />
                     {/* 设置页面 */}
                     {currentPage === 'settings' && <SettingsView onDone={() => handlePageChange('home')} />}
                 </QueryClientProvider>
