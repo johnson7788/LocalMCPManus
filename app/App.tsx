@@ -89,7 +89,6 @@ function App() {
                         isHidden={false}
                         showAnnouncement={showAnnouncement}
                         hideAnnouncement={() => setShowAnnouncement(false)}
-                        showHistoryView={() => setCurrentPage('history')}
                       />
                     )}
                     <HumanRelayDialog

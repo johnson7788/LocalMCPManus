@@ -8,10 +8,7 @@ import { useExtensionState } from "../../context/ExtensionStateContext"
 import { useAppTranslation } from "../../i18n/TranslationContext"
 import { CopyButton } from "./CopyButton"
 
-type HistoryPreviewProps = {
-	showHistoryView: () => void
-}
-const HistoryPreview = ({ showHistoryView }: HistoryPreviewProps) => {
+const HistoryPreview = () => {
 	const { taskHistory } = useExtensionState()
 	const { t } = useAppTranslation()
 
@@ -22,9 +19,6 @@ const HistoryPreview = ({ showHistoryView }: HistoryPreviewProps) => {
 					<span className="codicon codicon-comment-discussion scale-90 mr-1" />
 					<span className="font-medium text-xs uppercase">{t("history:recentTasks")}</span>
 				</div>
-				<Button variant="ghost" size="sm" onClick={() => showHistoryView()} className="uppercase">
-					{t("history:viewAll")}
-				</Button>
 			</div>
 			{taskHistory.slice(0, 3).map((item) => (
 				<div

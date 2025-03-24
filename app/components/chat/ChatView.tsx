@@ -36,14 +36,13 @@ interface ChatViewProps {
 	isHidden: boolean
 	showAnnouncement: boolean
 	hideAnnouncement: () => void
-	showHistoryView: () => void
 }
 
 export const MAX_IMAGES_PER_MESSAGE = 20 // Anthropic limits to 20 images
 
 const isMac = navigator.platform.toUpperCase().indexOf("MAC") >= 0
 
-const ChatView = ({ isHidden, showAnnouncement, hideAnnouncement, showHistoryView }: ChatViewProps) => {
+const ChatView = ({ isHidden, showAnnouncement, hideAnnouncement }: ChatViewProps) => {
 	const { t } = useAppTranslation()
 	const modeShortcutText = `${isMac ? "⌘" : "Ctrl"} + . ${t("chat:forNextMode")}`
 	const {
@@ -65,7 +64,6 @@ const ChatView = ({ isHidden, showAnnouncement, hideAnnouncement, showHistoryVie
 		alwaysAllowModeSwitch,
 		alwaysAllowSubtasks,
 		customModes,
-		telemetrySetting,
 	} = useExtensionState()
 
 	//const task = messages.length > 0 ? (messages[0].say === "task" ? messages[0] : undefined) : undefined) : undefined
@@ -1142,7 +1140,7 @@ const ChatView = ({ isHidden, showAnnouncement, hideAnnouncement, showHistoryVie
 						<h2>{t("chat:greeting")}</h2>
 						<p>{t("chat:aboutMe")}</p>
 					</div>
-					{taskHistory.length > 0 && <HistoryPreview showHistoryView={showHistoryView} />}
+					{taskHistory.length > 0 && <HistoryPreview />}
 				</div>
 			)}
 
