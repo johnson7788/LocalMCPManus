@@ -6,6 +6,7 @@
 </p>
 
 一个现代化的使用各种MCP工具集，基于 Electron + React + TypeScript + TailwindCSS 开发。该项目提供了一个强大的跨平台桌面应用程序，用于管理和使用任务。
+开发中...
 
 
 ### 目录结构：
